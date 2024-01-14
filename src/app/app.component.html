@@ -1,0 +1,22 @@
+<button (click)=getPlayers() class="bg-gray-800 text-white 2xl rounded-2xl p-4 m-2 w-fit hover:bg-gray-700">
+    <fa-icon [icon]="faRefresh"/>
+
+</button>
+<h1>
+    Players connected to Dubchess:
+</h1>
+
+
+@for (player of players; track player) {
+    <div class="bg-gray-700 text-white 2xl rounded-2xl p-4 m-2">
+        <h2>
+
+            {{ player.username }}
+        </h2>
+        <h2>
+
+            {{ player.password }}
+        </h2>
+    </div>
+
+}
