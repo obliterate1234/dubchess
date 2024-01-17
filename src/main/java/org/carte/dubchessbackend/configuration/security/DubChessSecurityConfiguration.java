@@ -31,45 +31,23 @@ public class DubChessSecurityConfiguration {
     }
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user1 = User.withUsername("carte")
-                .password(passwordEncoder().encode("Dubchess@Passy1"))
-                .roles("ADMIN")
-                .build();
-        UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder().encode("user2Pass"))
-                .roles("USER")
-                .build();
+
         UserDetails admin = User.withUsername("root")
                 .password(passwordEncoder().encode("password@Admin"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-        configuration.setAllowedMethods(List.of("*")); // Allow all methods
-        configuration.setAllowedHeaders(List.of("*")); // Allow all headers
-        configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply this configuration to all paths
-        return source;
+        return new InMemoryUserDetailsManager(admin);
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("*")
-                        .permitAll()
-                        .anyRequest().authenticated()
-
+                        .anyRequest()
+                        .authenticated()
                 )
-                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-                .formLogin(Customizer.withDefaults())
-                .logout(LogoutConfigurer::permitAll);
-
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }

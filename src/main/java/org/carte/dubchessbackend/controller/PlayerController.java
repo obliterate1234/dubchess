@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
 public class PlayerController {
 
     private final PlayerService service;
