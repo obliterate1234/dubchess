@@ -1,5 +1,6 @@
 package org.carte.dubchessbackend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.carte.dubchessbackend.model.Player;
 import org.carte.dubchessbackend.service.PlayerService;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class PlayerController {
 
     private final PlayerService service;
@@ -17,6 +19,7 @@ public class PlayerController {
     }
     @GetMapping("/players")
     public List<Player> getPlayers() {
+
         return service.getAllPlayers();
     }
     @PostMapping("/players/add")
