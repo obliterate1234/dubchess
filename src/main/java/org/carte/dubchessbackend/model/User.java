@@ -2,12 +2,14 @@ package org.carte.dubchessbackend.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(schema = "user_")
+@Table(name = "_user")
 public class User implements UserDetails {
 
     @Id
@@ -17,6 +19,9 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Collection<String> roles;
 
     public User() {
 
@@ -66,7 +71,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public String getPassword() {

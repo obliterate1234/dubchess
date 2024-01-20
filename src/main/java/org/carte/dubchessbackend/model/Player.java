@@ -15,6 +15,8 @@ public class Player {
 
     private String username;
 
+    private Integer elo;
+
     private String password;
 
     public Player() {
